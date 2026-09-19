@@ -25,7 +25,7 @@ class UserRepository:
         return self.db.query(User).all()
 
     def get_support_agents(self) -> list[User]:
-        return (self.db.query(User).filter(User.role == UserRole.SUPPORT_AGENT).order_by(User.id).all())
+        return (self.db.query(User).filter(User.role == UserRole.SUPPORT_AGENT).order_by(User.agent_number).all())
 
     def get_customers(self) -> list[User]:
         return self.db.query(User).filter(User.role == UserRole.CUSTOMER).order_by(User.id).all()

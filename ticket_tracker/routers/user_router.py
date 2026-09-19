@@ -14,16 +14,18 @@ router = APIRouter(prefix="/user", tags=["users"])
 
 @router.post("/", response_model=UserResponse)
 def create_user(data: UserCreate, db: Session = Depends(get_db)):
+
     repository = UserRepository(db)
     service = UserService(repository)
 
-    user = User(fullname=data.fullname, username=data.username, password=data.password, role=data.role)
-
     try:
-        return service.create(user)
-    except ValueError as error:
-        raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail=str(error))
+        return service.create(data)
 
+    except ValueError as error:
+        raise HTTPException(
+            status_code=400,
+            detail=str(error)
+        )
 
 @router.get("/", response_model=list[UserResponse])
 def get_users(db: Session = Depends(get_db)):

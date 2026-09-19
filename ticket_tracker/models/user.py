@@ -13,6 +13,21 @@ class User(Base):
     username = Column(String, unique=True, nullable=False, index=True)
     password = Column(String, nullable=False)
     role = Column(SQLEnum(UserRole), nullable=False)
-    tickets = relationship("Ticket", foreign_keys= "Ticket.customer_id", back_populates="customer")
-    assigned_tickets = relationship("Ticket", foreign_keys="Ticket.assigned_agent_id", back_populates="assigned_agent")
-    assigned_agent_id = Column(Integer, ForeignKey("user.id"), nullable=True)
+
+    agent_number = Column(
+        Integer,
+        nullable=True,
+        unique=True
+    )
+
+    tickets = relationship(
+        "Ticket",
+        foreign_keys="Ticket.customer_id",
+        back_populates="customer"
+    )
+
+    assigned_tickets = relationship(
+        "Ticket",
+        foreign_keys="Ticket.assigned_agent_id",
+        back_populates="assigned_agent"
+    )
